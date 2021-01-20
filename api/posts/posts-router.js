@@ -1,4 +1,5 @@
 const express = require('express');
+const {validatePostId} = require('../middleware/middleware')
 const Posts = require('./posts-model')
 const router = express.Router();
 
@@ -14,7 +15,7 @@ router.get('/', (req, res) => {
 
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id',validatePostId, (req, res) => {
   // do your magic!
   // this needs a middleware to verify post id
   const {id} = req.params;
@@ -27,7 +28,7 @@ router.get('/:id', (req, res) => {
   })
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id',validatePostId, (req, res) => {
   // do your magic!
   // this needs a middleware to verify post id
   const {id} = req.params;
@@ -40,7 +41,7 @@ router.delete('/:id', (req, res) => {
   })
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id',validatePostId, (req, res) => {
   // do your magic!
   // this needs a middleware to verify post id
   const {id} = req.params;

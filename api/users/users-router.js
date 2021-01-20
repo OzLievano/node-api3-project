@@ -1,25 +1,25 @@
 const express = require('express');
 const User = require('./users-model.js')
 const Posts = require('../posts/posts-model')
-const {logger,validateUserId} = require('../middleware/middleware');
+const {logger,validateUserId, validateUser, validatePost} = require('../middleware/middleware');
 const router = express.Router();
 
-router.post('/',logger ,(req, res) => {
+router.post('/',logger,validateUser ,(req, res) => {
   // do your magic!
   // this needs a middleware to check that the request body is valid
   const newUser = req.body;
   console.log(newUser)
 
-  User.insert(newUser)
-  .then((users)=>{
-    res.status(201).json(newUser)
-  })
-  .catch((err)=>{
-    res.status(500).json({error:err.message})
-  })
+  // User.insert(newUser)
+  // .then((users)=>{
+  //   res.status(201).json(newUser)
+  // })
+  // .catch((err)=>{
+  //   res.status(500).json({error:err.message})
+  // })
 });
 
-router.get('/', (req, res) => {
+router.get('/', logger,(req, res) => {
   // do your magic!
   User.get()
   .then((user)=>{
@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
   })
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id',logger, validateUserId,(req, res) => {
   // do your magic!
   // this needs a middleware to verify user id
   const {id}=req.params;
@@ -43,7 +43,7 @@ router.get('/:id', (req, res) => {
   })
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id',logger,validateUserId, (req, res) => {
   // do your magic!
   // this needs a middleware to verify user id
   const {id}=req.params;
@@ -56,7 +56,7 @@ router.delete('/:id', (req, res) => {
   })
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id',logger,validateUserId,validatePost, (req, res) => {
   // do your magic!
   // this needs a middleware to verify user id
   // and another middleware to check that the request body is valid
@@ -72,7 +72,7 @@ router.put('/:id', (req, res) => {
   })
 });
 
-router.post('/:id/posts', (req, res) => {
+router.post('/:id/posts',logger,validateUserId,validatePost, (req, res) => {
   // do your magic!
   // this needs a middleware to verify user id
   // and another middleware to check that the request body is valid
@@ -100,7 +100,7 @@ router.post('/:id/posts', (req, res) => {
 
 })
 
-router.get('/:id/posts', (req, res) => {
+router.get('/:id/posts',logger,validateUserId, (req, res) => {
   // do your magic!
   // this needs a middleware to verify user id
   const {id} = req.params;
