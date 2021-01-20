@@ -2,8 +2,11 @@ const express = require('express');
 
 const server = express();
 const userRouter = require('./users/users-router')
+const postRouter = require('./posts/posts-router')
 
+server.use(express.json())
 server.use('/users',userRouter);
+server.use('/posts',postRouter);
 
 // remember express by default cannot parse JSON in request bodies
 
