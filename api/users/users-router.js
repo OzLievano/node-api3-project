@@ -59,6 +59,16 @@ router.put('/:id', (req, res) => {
   // do your magic!
   // this needs a middleware to verify user id
   // and another middleware to check that the request body is valid
+  const {id} = req.params;
+  const changes = req.body;
+
+  User.update(id,changes)
+  .then((user)=>{
+    res.status(200).json(user);
+  })
+  .catch((err)=>{
+    res.status(500).json({error:err.message})
+  })
 });
 
 router.post('/:id/posts', (req, res) => {
