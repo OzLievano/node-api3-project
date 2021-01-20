@@ -1,5 +1,7 @@
 function logger(req, res, next) {
   // do your magic!
+  const date = new Date.now()
+  console.log(`${req.method},${req.originalUrl},${date.getTime()}`)
 }
 
 function validateUserId(req, res, next) {
