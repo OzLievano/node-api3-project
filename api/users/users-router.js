@@ -1,9 +1,10 @@
 const express = require('express');
 const User = require('./users-model.js')
 const Posts = require('../posts/posts-model')
+const {logger,validateUserId} = require('../middleware/middleware');
 const router = express.Router();
 
-router.post('/', (req, res) => {
+router.post('/',logger ,(req, res) => {
   // do your magic!
   // this needs a middleware to check that the request body is valid
   const newUser = req.body;
@@ -11,7 +12,7 @@ router.post('/', (req, res) => {
 
   User.insert(newUser)
   .then((users)=>{
-    res.status(201).json(...users,...newUser)
+    res.status(201).json(newUser)
   })
   .catch((err)=>{
     res.status(500).json({error:err.message})
